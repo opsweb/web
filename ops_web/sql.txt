@@ -1,0 +1,37 @@
+SELECT  leixing ,COUNT(*) FROM
+(
+select 
+
+case
+WHEN logoyyline = '电信' AND logdiffip_loacl='电信' THEN '电信:电信'
+WHEN logoyyline = '电信' AND logdiffip_loacl='联通' THEN '电信:联通'
+WHEN logoyyline = '联通' AND logdiffip_loacl='联通' THEN '联通:联通'
+WHEN logoyyline = '联通' AND logdiffip_loacl='电信' THEN '联通:电信'
+ELSE '其他'
+END leixing
+from  web_getlogdb 
+WHERE logviewsfile='upload/1028.txt'
+) A
+
+GROUP BY leixing
+
+
+
+SELECT  leixing ,count(*) FROM
+(
+select 
+
+case
+WHEN logoyyline = '电信' AND logdiffip_loacl='电信' THEN '电信:电信'
+WHEN logoyyline = '电信' AND logdiffip_loacl='联通' THEN '电信:联通'
+WHEN logoyyline = '电信' AND logdiffip_loacl<>'电信' AND logdiffip_loacl<>'联通' THEN '电信:其他'
+WHEN logoyyline = '联通' AND logdiffip_loacl='联通' THEN '联通:联通'
+WHEN logoyyline = '联通' AND logdiffip_loacl='电信' THEN '联通:电信'
+WHEN logoyyline = '联通' AND logdiffip_loacl<>'电信' AND logdiffip_loacl<>'联通' THEN '联通:其他'
+ELSE '其他'
+END leixing
+from  web_getlogdb 
+WHERE logviewsfile='upload/1028.txt'
+) A
+
+GROUP BY leixing

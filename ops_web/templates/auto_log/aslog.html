@@ -1,0 +1,302 @@
+{% extends 'log.html' %}
+
+
+  {% block log-titel %}
+  
+
+		   <!--
+          <ul class="nav nav-sidebar">
+            <li><a href="">设置修改</a></li>
+            <li><a href="">机房拓扑</a></li>
+            <li><a href="">功能定制</a></li>
+          </ul>
+		  -->
+  
+
+        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+<!--------aslog start------>  
+
+			<div class="container-fluid">
+				<div class="row-fluid">
+					<div class="span12">
+			
+								<fieldset>
+								<legend>日志分析</legend> 
+								<div class="row">
+								<div class="col-md-3">
+								<blockquote>
+								<p>使用纯真IP库进行匹配查询.</p> <small>上传最新的数据库 <cite>可以保持数据更有效</cite></small>
+								</blockquote>
+								</div><!-- /.col-md-4 -->
+								<!-----------
+								<p class="checkbox" style="margin-left: 30px;"><input type="checkbox" /> 模糊匹配</p> 
+								<p class="checkbox" style="margin-left: 30px;"><input type="checkbox" /> 正则匹配</p>
+								<p class="checkbox" style="margin-left: 30px;"><input type="checkbox" /> 自定义</p> 
+								----------->					
+								
+								<!-- IP查询框 -->
+								<form method="get">
+								<div class="col-md-2">
+								<h5>输入IP进行验证:{{ views_ip_add }}</h5>
+									<div class="input-group">
+									  <input type="text" class="form-control" name="ip_query" >
+										<span class="input-group-btn">
+												   <input class="btn btn-default" type="submit" value="查询">
+										</span>
+									</div><!-- /input-group -->
+								</div><!-- /.col-lg-2 -->
+								</form>
+
+								<!--  显示IP -->
+								<div class="col-lg-5">
+								{% if views_ip %}
+								<table class="table table-striped">
+								<thead>
+										<tr>
+										<th>
+										开始IP段
+										</th>
+										<th>
+										结束IP段
+										</th>
+										<th>
+										国家/地区
+										</th>
+										<th>
+										运营商
+										</th>
+								</thead>
+								<tbody>
+								{% for ip in views_ip %}
+									<tr>
+									<td>{{ ip.startip }}</td>
+									<td>{{ ip.endip }}</td>
+									<td>{{ ip.country }}</td>
+									<td>{{ ip.local }}</td>
+								{% endfor %}
+									</tr>
+								  </tbody>
+								{% endif %}
+								</table>
+								</div><!-- /.col-lg-4 -->
+								<!-- 显示IP -->
+								</div><!-- /.row -->
+
+								<div class="row">
+								</div><!-- /.row -->
+							
+
+
+					<div class="row">
+				    <div class="container-fluid">
+					    
+						<legend>提交文件在线分析</legend>
+						<blockquote>
+						<form method="post"  enctype="multipart/form-data">
+						 <!-- CSRF -->
+						 {% csrf_token %}
+						 <!-- 上传文件标签 -->
+						 {{upf.as_p}}
+
+						 
+
+						 <div class="controls">
+							<!--<input class="input-file" name="file" id="fileInput" type="file" />-->
+							</br> 
+							{% if upsuccess == "1" %}
+							<div class="container-fluid">
+								<div class="row-fluid">
+									<div class="span12">
+										<div class="alert alert-success">
+											 <button type="button" class="close" data-dismiss="alert">×</button>
+												<h4>提示:</h4> <strong>上传成功!</br></br>日志完成分析，并入库。</br>可以在下面的列表继续查看。</strong> 
+											
+										</div>
+										<button class="btn btn-small btn-warning" type="button">立即查看</button>
+										<button class="btn btn-small btn-warning" type="button">继续上传</button>
+									</div>
+								</div>
+							</div>
+							
+							{% else %}
+								<input class="btn btn-default" type="submit" value="上传文件" /> 
+							{% endif %}
+						 </div>
+						 </form>
+						 </blockquote>
+					   </div><!-- control-group -->
+					  </div><!-- /.row -->
+
+
+						<!-- Up File List -->
+						</br> 
+						</br> 
+
+                        <!--  日志的统计S -->
+							{% if log_analyse %}
+
+							<!-- 日志   统计表格S -->
+							<table class="table table-bordered table-hover">
+								<thead>
+									<tr>
+										<th>
+											类型
+										</th>
+
+										<th>
+											统计
+										</th>
+									</tr>
+								</thead>
+							<tbody>
+							
+							{% for alys in log_analyse %}
+						    <tr>
+							<!-- 利用循环控制表格颜色 S -->
+							{% if forloop.counter0|divisibleby:2 %}
+							 <tr class = "info" >
+							{% else %}
+							<tr class = "success" >
+							{% endif %}
+							<!-- 利用循环控制表格颜色 F -->
+							<td>{{ alys.leixing }}</td>
+							<td>{{ alys.count}}</td>
+							{% endfor %}
+							</tr>
+							</tbody>
+							{% endif %}
+						<!-- 日志   统计表格F  -->
+						<!-- 日志的统计F -->
+
+
+
+						<div>
+						<!-- 显示分析内容-->
+						{% if views_log %}
+						<h4 class="sub-header">分析结果</h4>
+
+
+						<table class="table table-bordered table-hover">
+								<thead>
+									<tr>
+							
+										<th>
+											文件名
+										</th>
+
+										<th>
+											时间
+										</th>
+
+										<th>
+											服务器
+										</th>
+
+										<th>
+											服务器线路
+										</th>
+
+
+										<th>
+											玩家ID
+										</th>
+
+										<th>
+											玩家IP
+										</th>
+
+										<th>
+											所属区域
+										</th>
+
+										<th>
+											运营商
+										</th>
+									</tr>
+								</thead>
+						<tbody>
+							{%  for views in views_log %}
+						    <tr>
+							<!-- 利用循环控制表格颜色 S -->
+							{% if forloop.counter0|divisibleby:2 %}
+							 <tr class = "active" >
+							{% else %}
+							<tr class = "warning" >
+							{% endif %}
+							<!-- 利用循环控制表格颜色 F -->
+							<td>{{ views.logviewsfile }}</td>
+							<td>{{ views.logdate }}</td>
+							<td>{{ views.loggt }}</td>
+							<td>{{ views.logoyyline }}</td>
+							<td>{{ views.logid }}</td>
+							<td>{{ views.logip }}</td>
+							<td>{{ views.logdiffip_country }}</td>
+							<td>{{ views.logdiffip_loacl }}</td>
+							{% endfor %}
+							</tr>
+						  </tbody>
+							 {% endif %}
+
+
+
+						<!-- 显示上传文件 -->
+						{% if upload_logfile_list %}
+						<h4 class="sub-header">已上传日志文件</h4>
+							<table class="table table-bordered table-hover">
+								<thead>
+									<tr>
+							
+										<th>
+											ID
+										</th>
+
+										<th>
+											别名
+										</th>
+
+										<th>
+											上传时间
+										</th>
+
+										<th>
+											路径
+										</th>
+
+										<th>
+											功能
+										</th>
+									</tr>
+								</thead>
+						<tbody>
+						{%  for list in upload_logfile_list %}
+						    <tr>
+							<td>{{ list.id }}</td>
+							<td>{{ list.file_name }}</td>
+							<td>{{ list.update_time }}</td>
+							<form method="get">
+							<td>{{ list.file_path }}</td>
+
+
+							<td><input type="hidden" name="views_log"  value={{list.file_path}}>
+							<button type="submit" class="btn btn-success">查看分析结果</button>
+
+							</td>
+							
+							</form>
+						{% endfor %}
+							</tr>
+						  </tbody>
+						 {% endif %}
+						</div>
+						<!-- File Upload -->
+						{{fli}}
+			
+
+
+
+
+		</div>
+	</div>
+</div>
+
+{% endblock %}

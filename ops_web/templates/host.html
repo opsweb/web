@@ -1,0 +1,155 @@
+{% extends 'index.html' %}
+
+{% block page-content %}
+
+    <div class="container-fluid">
+    	
+      <div class="row">
+        <div class="col-sm-3 col-md-2 sidebar">
+          <ul class="nav nav-sidebar">
+		    <li class="active"><a class="glyphicon glyphicon-search" href="/host/">主机组</a></li>
+            <li><a class="glyphicon glyphicon-align-justify" href="/hostManager/">主机管理</a></li>
+            <li><a class="glyphicon glyphicon-wrench" href="#">问题</a></li>
+            <!--<li><a class="glyphicon glyphicon-edit" href="#">增加服务器</a></li>-->
+          </ul>
+		  <!--
+          <ul class="nav nav-sidebar">
+            <li><a href="">服务器信</a></li>
+            <li><a href="">主机预览</a></li>
+            <li><a href="">审计预览</a></li>
+            <li><a href="">资产预览</a></li>
+            <li><a href="">日志预览</a></li>
+          </ul>
+          <ul class="nav nav-sidebar">
+            <li><a href="">设置修改</a></li>
+            <li><a href="">机房拓扑</a></li>
+            <li><a href="">功能定制</a></li>
+          </ul>
+		  -->
+        </div>
+{% block host-titel %}
+
+<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+
+<h4 class="sub-header">主机预览</h4>
+<div class="row"><!-- JSON后台主机数据 -->
+<div class="col-md-3">
+    <table class="table table-bordered table-hover" id="views_group">
+        <th>组名</th>
+        <th>主机数量</th>
+        <tr>
+
+        </tr>
+
+    </table>
+</div>
+
+<!--点击就显示后台数据的JS-->
+<script type="text/javascript">
+		$(document).ready(function(){
+			$.get('/get_ip_list/',function(returnData){
+                var groupDic=JSON.parse(returnData)
+				console.log(returnData);
+                //console.log(returnData['groupSummary']);
+                var groupObj=groupDic['groupSummary']
+                //用each的方法获取JSON值
+                $.each(groupObj,function(key,value){
+                    row_content="<tr><td><a href=/groupDetail/"+key+">"+value[0]+"</a></td><td>"+value[1]+"</td></tr>"
+                    $("#views_group").append(row_content);
+
+                })//end each
+
+                //$("#viewsip").append(returnData);
+
+				})//end get
+			})//end document ready
+
+</script>
+</div> <!--row-->
+
+
+
+<!--
+
+         <h4 class="sub-header">批量运行命令组</h4>
+          <div class="table-responsive">
+            <table class="table table-striped">
+
+		<!-- 执行批量命令 -->
+<!--
+			<div class="row">
+			<div class="col-md-5">
+		   {% if server_dic %}
+		   {% for g,ip_list in server_dic.items %}
+				<div class="checkbox" ">
+				<label>
+				<input type="checkbox" /> {{ g }}   [数量:{{ ip_list|length }} ]
+				
+				<i  id="{{g}}" class="glyphicon glyphicon-search" onclick="showIPlist(this)"></i>
+				</label> 
+				 
+				</div>
+		   {% endfor %}
+		   {% endif %}
+		   </div>
+		 </div>
+		<div class="row">
+		 <form method="get">
+		<div class="col-md-5">
+	
+		   <h5>输入命令:</h5>
+			<div class="input-group pull-left">
+			  <input type="text" class="form-control" name="ip_query" >
+				<span class="input-group-btn">
+						   <input class="btn btn-default" type="submit" value="运行">
+				</span>
+			</div><!-- /input-group -->
+<!--
+		</div><!-- /.col-lg-2 -->
+<!--
+		</form>
+-->
+
+
+
+
+
+<!--
+<div class="btn-group" data-toggle="buttons">
+  <label class="btn btn-primary active">
+    <input type="checkbox" autocomplete="off" checked> Checkbox 1 (pre-checked)
+  </label>
+  <label class="btn btn-primary">
+    <input type="checkbox" autocomplete="off"> Checkbox 2
+  </label>
+  <label class="btn btn-primary">
+    <input type="checkbox" autocomplete="off"> Checkbox 3
+  </label>
+</div>
+<button type="button" id="myStateButton" data-complete-text="finished!" class="btn btn-primary" autocomplete="off">
+  1111111
+</button>
+-->
+
+<!--
+<script>
+  $('#myStateButton').on('click', function () {
+    $(this).button(('toggle') // button text will be "finished!"
+  })
+</script>
+-->
+						
+
+
+	
+</div><!-- /.container-fluid-->
+
+</div><!-- /.row-fluid -->
+
+
+
+		   
+
+
+{% endblock %}
+{% endblock %}

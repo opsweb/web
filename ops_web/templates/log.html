@@ -1,0 +1,62 @@
+{% extends 'index.html' %}
+
+
+
+{% block page-content %}
+  
+  
+   
+    <div class="container-fluid">
+    	
+      <div class="row">
+        <div class="col-sm-3 col-md-2 sidebar">
+          <ul class="nav nav-sidebar">
+		    <li ><a class="glyphicon glyphicon-search" href="#">日志预览</a></li>
+            <li><a class="glyphicon glyphicon-align-justify" href="#">syslog_日志</a></li>
+            <li><a class="glyphicon glyphicon-wrench"href="#">syslog_配置</a></li>
+
+			{% if active_path == "/log/aslog/" %}
+            <li class="active">
+			{% else %}
+			<li>
+			{% endif %}
+			<a class="glyphicon glyphicon-edit" href="/log/aslog/">提交日志进行分析</a></li>
+          </ul>
+		 
+          <ul class="nav nav-sidebar">
+            <li><a href="">游戏日志</a></li>
+            <li><a href="">添加接口</a></li>
+            <li><a href="">日志统计</a></li>
+            <li><a href="">日志接口</a></li>
+            <li><a href="">自定义</a></li>
+          </ul>
+		 
+		   <!--
+          <ul class="nav nav-sidebar">
+            <li><a href="">设置修改</a></li>
+            <li><a href="">机房拓扑</a></li>
+            <li><a href="">功能定制</a></li>
+          </ul>
+		  -->
+        </div>
+		{% block log-titel %}
+
+
+
+
+<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+
+
+
+
+
+
+
+
+
+</div>
+
+{% endblock %}
+
+
+{% endblock %}

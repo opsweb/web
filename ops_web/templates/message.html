@@ -1,0 +1,53 @@
+{% extends 'index.html' %}
+
+{% block page-content %}
+
+
+    <div class="container-fluid">
+    	
+      <div class="row">
+        <div class="col-sm-3 col-md-2 sidebar">
+          <ul class="nav nav-sidebar">
+		    <li class="active"><a class="glyphicon glyphicon-search" href="#">监控预览</a></li>
+            <li><a class="glyphicon glyphicon-align-justify" href="#">监控列表</a></li>
+            <li><a class="glyphicon glyphicon-wrench"href="#">报警列表</a></li>
+            <li><a class="glyphicon glyphicon-edit" href="#">触发设置</a></li>
+          </ul>
+		  <!--
+          <ul class="nav nav-sidebar">
+            <li><a href="">服务器信</a></li>
+            <li><a href="">主机预览</a></li>
+            <li><a href="">审计预览</a></li>
+            <li><a href="">资产预览</a></li>
+            <li><a href="">日志预览</a></li>
+          </ul>
+          <ul class="nav nav-sidebar">
+            <li><a href="">设置修改</a></li>
+            <li><a href="">机房拓扑</a></li>
+            <li><a href="">功能定制</a></li>
+          </ul>
+		  -->
+</div>
+
+
+ <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+ <!-- 每5秒加载一次页面 -->
+ <div id="monitor_summary">
+ </div>
+<script type="text/javascript">
+
+$(document).ready(function(){
+	$("#monitor_summary").load("/monitor/monitor_load/");
+	var autoRefresh = setInterval (
+			function(){ 
+		
+
+			$("#monitor_summary").load("/monitor/monitor_load/");
+	},5000);
+
+});
+</script>
+
+</div>
+<!---监视服务器列表--------------------->
+{% endblock %}

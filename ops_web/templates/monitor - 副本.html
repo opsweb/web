@@ -1,0 +1,234 @@
+{% extends 'index.html' %}
+
+{% block page-content %}
+
+
+    <div class="container-fluid">
+    	
+      <div class="row">
+        <div class="col-sm-3 col-md-2 sidebar">
+          <ul class="nav nav-sidebar">
+		    <li class="active"><a class="glyphicon glyphicon-search" href="#">监控预览</a></li>
+            <li><a class="glyphicon glyphicon-align-justify" href="#">监控列表</a></li>
+            <li><a class="glyphicon glyphicon-wrench"href="#">报警列表</a></li>
+            <li><a class="glyphicon glyphicon-edit" href="#">触发设置</a></li>
+          </ul>
+		  <!--
+          <ul class="nav nav-sidebar">
+            <li><a href="">服务器信</a></li>
+            <li><a href="">主机预览</a></li>
+            <li><a href="">审计预览</a></li>
+            <li><a href="">资产预览</a></li>
+            <li><a href="">日志预览</a></li>
+          </ul>
+          <ul class="nav nav-sidebar">
+            <li><a href="">设置修改</a></li>
+            <li><a href="">机房拓扑</a></li>
+            <li><a href="">功能定制</a></li>
+          </ul>
+		  -->
+        </div>
+   <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+   <!--  <h1 class="page-header">报表展示</h1>-->
+   <h2 class="sub-header">服务器状态预览</h2>
+
+		
+         
+    
+<!---监视服务器列表--------------------->
+<div class="container-fluid">
+	<div class="row-fluid">
+		<div class="span12">
+		{% if name_list %}
+			<table class="table table-bordered table-hover">
+				<thead>
+					<tr>
+			
+						<th>
+							ID
+						</th>
+
+						<th>
+							属组
+						</th>
+
+						<th>
+							机房
+						</th>
+
+						<th>
+							IP
+						</th>
+
+						<th>
+							主机名
+						</th>
+
+						<th>
+							系统
+						</th>
+
+						<th>
+							分配状态
+						</th>
+
+						<th>
+							备注
+						</th>
+
+					</tr>
+				</thead>
+		<tbody>
+		<!--获取数据库传来的标签内容展示-->
+		  {%  for k,v in name_list.items %}
+		  <!--ifequal判断 k的值改变表格的颜色
+		    {% ifequal k "Alex" %}
+			      <tr class = "info" >
+		    {% else %}
+			      <tr class = "success" >
+			{% endifequal %}
+			-->
+		  <!--forloop改变表格的颜色-->
+		    {% if forloop.counter0|divisibleby:2 %}
+			      <tr class = "info" >
+		    {% else %}
+			      <tr class = "success" >
+			{% endif %}
+			<td>{{ k }}</td> 
+			{% for i in v %}
+				{% if i == '在线-启用' %}
+					<td class="error"><font color="green">{{ i }}</font><span class="glyphicon glyphicon-ok"></span></td>
+
+				{% else %}
+					{% if i == '在线-未知' %}
+						<td class="error"><font color="red">{{ i }}</font><span class="glyphicon glyphicon-question-sign"></span></td>
+					{% else %}
+					
+				    <td>{{i}}</td>
+					{% endif %}
+				{% endif %}
+			{% endfor %}
+			</tr>
+			
+		  {%  endfor %}
+		</tbody>
+<!----------------自定义列表 end  -----数据库出版社 start--------------------------->
+<div class="container-fluid">
+	<div class="row-fluid">
+		<div class="span12">
+		{% if book_list %}
+			<table class="table table-bordered table-hover">
+				<thead>
+					<tr>
+			
+						<th>
+							书名
+						</th>
+
+						<th>
+							作者
+						</th>
+
+						<th>
+							出版社
+						</th>
+
+						<th>
+							出版日期
+						</th>
+					</tr>
+				</thead>
+		<tbody>
+		  {%  for book in book_list %}
+		   <tr>
+			<td>{{ book.title }}</td>
+			<!---------ManyToMany类型数据显示---------循环到单个第一个frist_name-->
+			<td>{% for author in book.authors.values %} {{author.first_name}} {% endfor %}</td>
+			<!---------ManyToMany类型数据显示----------->
+			<td>{{ book.publisher }}</td>
+			<td>{{ book.publication_date }}</td>
+			{% endfor %}
+			</tr>
+		{% endif %}
+<!---------------数据库biik_list end--------------------------->
+		  </tbody>
+         
+				<tbody>
+					<tr>
+						<td>
+							1
+						</td>
+						<td>
+							TB - Monthly
+						</td>
+						<td>
+							01/04/2012
+						</td>
+						<td>
+							Default
+						</td>
+					</tr>
+					<tr class="success">
+						<td>
+							1
+						</td>
+						<td>
+							TB - Monthly
+						</td>
+						<td>
+							01/04/2012
+						</td>
+						<td>
+							Approved
+						</td>
+					</tr>
+					<tr class="error">
+						<td>
+							2
+						</td>
+						<td>
+							TB - Monthly
+						</td>
+						<td>
+							02/04/2012
+						</td>
+						<td>
+							Declined
+						</td>
+					</tr>
+					<tr class="warning">
+						<td>
+							3
+						</td>
+						<td>
+							TB - Monthly
+						</td>
+						<td>
+							03/04/2012
+						</td>
+						<td>
+							Pending
+						</td>
+					</tr>
+					<tr class="info">
+						<td>
+							4
+						</td>
+						<td>
+							TB - Monthly
+						</td>
+						<td>
+							04/04/2012
+						</td>
+						<td>
+							Call in to confirm
+						</td>
+					</tr>
+				</tbody>
+			</table>
+			{% endif %}
+		</div>
+	</div>
+</div>
+<!---监视服务器列表--------------------->
+{% endblock %}
